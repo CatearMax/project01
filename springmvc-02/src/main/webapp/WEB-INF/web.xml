@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://java.sun.com/xml/ns/javaee"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+         http://java.sun.com/xml/ns/javaee/web-app_3_1.xsd"
+         version="3.0">
+  <!-- 配置一个前端控制器  servlet -->
+  <servlet>
+    <!-- servlet的名字 -->
+    <servlet-name>springmvc</servlet-name>
+    <!-- servlet类所在的全类名 -->
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    <init-param>
+      <!-- 前端控制器初始化的时候需要的参数 -->
+      <param-name>contextConfigLocation</param-name>
+      <!-- springmvc对应的配置文件 -->
+      <param-value>classpath:springmvc.xml</param-value>
+    </init-param>
+  </servlet>
+
+  <!-- 配置servlet的访问映射 -->
+  <servlet-mapping>
+    <!-- servlet的名字 -->
+    <servlet-name>springmvc</servlet-name>
+    <!-- 访问中央处理器的链接地址是 -->
+    <url-pattern>*.action</url-pattern>
+  </servlet-mapping>
+</web-app>

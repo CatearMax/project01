@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/preServlet/preServlet.iml" filepath="$PROJECT_DIR$/preServlet/preServlet.iml" />
+      <module fileurl="file://$PROJECT_DIR$/project01.iml" filepath="$PROJECT_DIR$/project01.iml" />
+      <module fileurl="file://$PROJECT_DIR$/springmvc-02/springmvc-02.iml" filepath="$PROJECT_DIR$/springmvc-02/springmvc-02.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ssm-01/ssm-01.iml" filepath="$PROJECT_DIR$/ssm-01/ssm-01.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ssm-02/ssm-02.iml" filepath="$PROJECT_DIR$/ssm-02/ssm-02.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ssm-03/ssm-03.iml" filepath="$PROJECT_DIR$/ssm-03/ssm-03.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ssm-04/ssm-04.iml" filepath="$PROJECT_DIR$/ssm-04/ssm-04.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ssm-05/ssm-05.iml" filepath="$PROJECT_DIR$/ssm-05/ssm-05.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ssm-06/ssm-06.iml" filepath="$PROJECT_DIR$/ssm-06/ssm-06.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ssm-07/ssm-07.iml" filepath="$PROJECT_DIR$/ssm-07/ssm-07.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ssmValidate/ssmValidate.iml" filepath="$PROJECT_DIR$/ssmValidate/ssmValidate.iml" />
+    </modules>
+  </component>
+</project>

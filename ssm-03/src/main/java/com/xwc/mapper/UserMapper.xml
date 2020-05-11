@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xwc.mapper.UserMapper">
+
+    <select id="findUsersBySth" parameterType="user" resultType="user">
+        select * from user u ,user_details ud
+        <where>
+            u.details_id = ud.ud_id
+            <if test="user_name != null and user_name != ''">
+                and u.user_name like #{user_name}
+            </if>
+            <if test="user_state != null">
+                and u.user_state = #{user_state}
+            </if>
+            <if test="userDetails != null and userDetails.user_phone != null and userDetails.user_phone != ''">
+                and ud.user_phone like #{userDetails.user_phone}
+            </if>
+            <if test="user_time != null" >
+                and u.user_time = #{user_time}
+            </if>
+        </where>
+    </select>
+
+    <select id="findUsersByIds" resultType="user">
+        select *from user where
+        <foreach collection="array" item="id" open="user_id in (" close=")" separator=",">
+            #{id}
+        </foreach>
+    </select>
+
+    <update id="updateUsers" >
+        <foreach collection="list" item="user">
+            update user set user_name = #{user.user_name},
+            user_state = #{user.user_state}
+            where user_id = #{user.user_id};
+        </foreach>
+    </update>
+</mapper>

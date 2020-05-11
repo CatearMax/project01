@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="ssmValidate:war">
+    <output-path>$PROJECT_DIR$/ssmValidate/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>ssmValidate</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="ssmValidate-1.0-SNAPSHOT.war">
+      <element id="artifact" artifact-name="ssmValidate:war exploded" />
+    </root>
+  </artifact>
+</component>

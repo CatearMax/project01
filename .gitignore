@@ -1,0 +1,11 @@
+# Project exclude paths
+/out/
+/springmvc-02/target/
+/ssm-01/target/
+/ssm-02/target/
+/ssm-03/target/
+/ssm-04/target/
+/ssm-05/target/
+/ssm-06/target/
+/ssm-07/target/
+/ssmValidate/target/

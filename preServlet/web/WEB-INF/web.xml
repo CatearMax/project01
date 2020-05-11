@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
+         version="4.0">
+
+
+    <servlet>
+        <servlet-name>ServletA</servlet-name>
+        <servlet-class>com.xwc.Servlet.ServletA</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ServletB</servlet-name>
+        <servlet-class>com.xwc.Servlet.ServletB</servlet-class>
+        <init-param>
+            <param-name>Myname</param-name>
+            <param-value>夏文超</param-value>
+        </init-param>
+    </servlet>
+
+    <context-param>
+        <param-name>pwd</param-name>
+        <param-value>123321</param-value>
+    </context-param>
+
+    <servlet-mapping>
+        <servlet-name>ServletA</servlet-name>
+        <url-pattern>/servletA</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ServletB</servlet-name>
+        <url-pattern>/servletB</url-pattern>
+    </servlet-mapping>
+</web-app>

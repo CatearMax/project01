@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://java.sun.com/xml/ns/javaee"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+         http://java.sun.com/xml/ns/javaee/web-app_3_1.xsd"
+         version="3.0">
+
+  <!-- 解决post乱码的字符过滤器 -->
+  <filter>
+    <filter-name>CharacterEncodingFilter</filter-name>
+    <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+    <init-param>
+      <param-name>encoding</param-name>
+      <param-value>utf-8</param-value>
+    </init-param>
+  </filter>
+  <filter-mapping>
+    <filter-name>CharacterEncodingFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+
+  <!-- 添加shiro过滤器 -->
+  <filter>
+    <filter-name>shiroFilter</filter-name>
+    <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+    <init-param>
+      <!-- 该值缺省为false，表示声明周期由SpringApplicationContext管理，
+          设置为true表示ServletContainer管理 -->
+      <param-name>targetFilterLifecycle</param-name>
+      <param-value>false</param-value>
+    </init-param>
+  </filter>
+  <filter-mapping>
+    <filter-name>shiroFilter</filter-name>
+    <!--对所有资源进行拦截-->
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+
+
+  <!--配置spring-->
+  <!--监听tomcat servletContext启动-->
+  <listener>
+    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
+  <!--告诉监听器  需要加载的配置文件-->
+  <context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>
+      classpath:spring/application-dao.xml,
+      classpath:spring/application-service.xml,
+      classpath:spring/application-transaction.xml,
+      classpath:spring/application-shiro.xml
+    </param-value>
+  </context-param>
+
+
+  <!--配置springmvc-->
+  <!-- 配置一个前端控制器  servlet -->
+  <servlet>
+    <!-- servlet的名字 -->
+    <servlet-name>springmvc</servlet-name>
+    <!-- servlet类所在的全类名 -->
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    <init-param>
+      <!-- 前端控制器初始化的时候需要的参数 -->
+      <param-name>contextConfigLocation</param-name>
+      <!-- springmvc对应的配置文件 -->
+      <param-value>classpath:springmvc/springmvc.xml</param-value>
+    </init-param>
+  </servlet>
+  <!-- 配置servlet的访问映射 -->
+  <servlet-mapping>
+    <!-- servlet的名字 -->
+    <servlet-name>springmvc</servlet-name>
+    <!-- 访问中央处理器的链接地址是 -->
+    <url-pattern>*.action</url-pattern>
+  </servlet-mapping>
+
+</web-app>

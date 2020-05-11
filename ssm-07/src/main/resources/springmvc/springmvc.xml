@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans" xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:p="http://www.springframework.org/schema/p" xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+     http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+     http://www.springframework.org/schema/context
+     http://www.springframework.org/schema/context/spring-context-4.0.xsd
+     http://www.springframework.org/schema/mvc
+     http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
+
+    <!-- 使用springMVC的驱动加载代替以上加载
+        conversion-service  配置转换器
+        包含了很多配置 例如 ajax请求 json 所以不用去配置json的配置器
+     -->
+    <mvc:annotation-driven conversion-service="conversionService"/>
+
+    <!-- 让spring加载所有自定义的转换器 -->
+    <bean id="conversionService"
+          class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+        <!-- 定义要加载的转换器列表 -->
+        <property name="converters">
+            <bean class="com.xwc.converter.StringToDateConverter"></bean>
+        </property>
+    </bean>
+
+     <!--让springmvc框架自动向每个handlerMapping中注册拦截器-->
+    <mvc:interceptors>
+
+        <!--可以在mvc:interceptor标签中配置多个拦截器-->
+        <!--配置了多个拦截器 构成拦截链
+        先配置拦截器posthandler先执行（重点注意）
+        先配置的拦截器 posthandler和after拦截器后执行
+        -->
+        <!--
+            A的prehandler拦截
+            B的prehandler拦截
+            gggg
+            B的posthandler拦截
+            A的postHandler拦截
+            B的after拦截
+            A的after拦截
+        -->
+        <mvc:interceptor>
+            <!--配置需要拦截的资源 /**/表示拦截所有资源-->
+            <mvc:mapping path="/**/"/>
+
+            <!--配置放行的资源 可以配置多个-->
+            <mvc:exclude-mapping path="/ggg.action"/>
+
+            <!--配置拦截器 加载javabean-->
+            <bean class="com.xwc.interceptor.UserLoginInterceptorA"></bean>
+        </mvc:interceptor>
+
+        <mvc:interceptor>
+            <mvc:mapping path="/**/"/>
+            <bean class="com.xwc.interceptor.UserLoginInterceptorB"></bean>
+        </mvc:interceptor>
+
+    </mvc:interceptors>
+
+
+        <!-- 定义异常处理器 -->
+    <bean class="com.xwc.exception.MyExceptionResolver"></bean>
+
+    <!-- 文件上传 -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <!-- 设置上传文件的最大尺寸为5MB -->
+        <property name="maxUploadSize">
+            <value>5242880</value>
+        </property>
+    </bean>
+
+    <!-- 组件扫描，让spring容器把扫描到的组件加载到容器的JavaBean集合中 -->
+    <context:component-scan base-package="com.xwc.handler" />
+</beans>

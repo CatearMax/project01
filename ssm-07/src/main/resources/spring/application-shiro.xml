@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                     http://www.springframework.org/schema/context
+                     http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+    <!--1. 安全管理器 -->
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <!--配置自定义的realm-->
+        <property name="realm" ref="myRealm"/>
+        <!--配置cacheManager-->
+        <property name="cacheManager" ref="cacheManager"/>
+    </bean>
+
+    <!--2 自定义Realm -->
+    <bean id="myRealm" class="com.xwc.realm.MyRealm"/>
+
+    <!--3.cacheManager-->
+    <bean id="cacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
+        <property name="cacheManagerConfigFile" value="classpath:ehcache.xml" />
+    </bean>
+
+    <!-- 4.Shiro过滤器  -->
+    <!--4.id必须和web.xml中配置的shiro过滤器中的 DelegatingFilterProxy的<filter-name>一致 -->
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+        <!-- 这个属性是必须的 前面配置的安全管理器 -->
+        <property name="securityManager" ref="securityManager"/>
+        <!-- 身份认证失败，则跳转到登录页面的配置 -->
+        <property name="loginUrl" value="/login.jsp"/>
+        <!--登录成功页面 跳转到对应的页面-->
+        <property name="successUrl" value="xxxx"/>
+        <!-- 权限授权失败(登录失败)，则跳转到指定页面 -->
+        <property name="unauthorizedUrl" value="/unauthorized.jsp"/>
+        <!-- 配置哪些页面需要受保护 以及哪些页面需要的权限
+        	anon游客身份  authc已认证身份  roles角色  perms权限-->
+        <property name="filterChainDefinitions">
+            <value>
+                <!-- /?  匹配一个字符 -->
+                <!-- /*  匹配零个或多个字符串 -->
+                <!-- /** 匹配路径中的零个或者多个路径 -->
+                <!-- url权限采用第一次匹配优先匹配的方式
+                 例如：/bb/** = filter1
+                      /bb/aa = filter2
+                      则访问/bb/aa时 会被filter1拦截
+                 -->
+                /login*=anon
+                /login/**=anon
+                /admin/**=authc
+                /user/**=roles["admin","user"]
+                /add/**=perms["user:create"]
+            </value>
+        </property>
+    </bean>
+
+    <!--5. 保证实现了Shiro内部lifecycle函数的bean执行 -->
+    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+
+    <!--6. 开启Shiro注解 但必须在配置了 lifecycleBeanPostProcessor 才可以使用 -->
+    <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" depends-on="lifecycleBeanPostProcessor"/>
+    <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+        <property name="securityManager" ref="securityManager"/>
+    </bean>
+</beans>
